@@ -45,7 +45,7 @@ const create = async (request) => {
   let source = CancelToken.source();
   setTimeout(() => { source.cancel(); }, 3 * 1000);
 
-  options = {
+  const options = {
     method: 'POST',
     cancelToken: source.token,
     headers: {
