@@ -30,6 +30,10 @@ const createMapper = (request) => {
       return '5d727c657dfaa80d90542b1e';
     },
     duedate: () => {
+      if (!r.duedate) {
+        return null;
+      }
+      
       return formatDate(new Date(r.duedate))
     },
     labels: () => {
