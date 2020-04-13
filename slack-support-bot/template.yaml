@@ -1,0 +1,37 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  slack-support-bot
+  SAM for slack-support-bot
+  
+Globals:
+  Function:
+    Timeout: 10
+
+Resources:
+  SlackSupportBotFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: SlackSupportBotFunction
+      CodeUri: slack-support-bot/
+      Handler: app.lambdaHandler
+      Layers:
+        - arn:aws:lambda:us-east-1:005256505030:layer:slack_support_bot_node_modules_layer:1
+      Runtime: nodejs12.x
+      Events:
+        SlackSupport:
+          Type: Api
+          Properties:
+            Path: /SlackSupport
+            Method: post
+
+Outputs:
+  SlackSupportApi:
+    Description: "API Gateway endpoint URL for Prod stage for SlackSupport"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/SlackSupport/"
+  SlackSupportBotFunction:
+    Description: "SlackSupportBotFunction ARN"
+    Value: !GetAtt SlackSupportBotFunction.Arn
+  SlackSupportBotFunctionIamRole:
+    Description: "Implicit IAM Role created for SlackSupportBotFunction"
+    Value: !GetAtt SlackSupportBotFunctionRole.Arn
