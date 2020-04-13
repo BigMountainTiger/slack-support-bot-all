@@ -1,5 +1,27 @@
 {
   "version": "0.2.0",
   "configurations": [
+    {
+      "name": "BOT Attach",
+      "type": "node",
+      "request": "attach",
+      "address": "localhost",
+      "port": 5000,
+      "localRoot": "${workspaceRoot}/slack-support-bot/slack-support-bot",
+      "remoteRoot": "/var/task",
+      "protocol": "inspector",
+      "stopOnEntry": false
+    },
+    {
+      "name": "JIRA Handler Attach",
+      "type": "node",
+      "request": "attach",
+      "address": "localhost",
+      "port": 5000,
+      "localRoot": "${workspaceRoot}/slack-support-bot-jira-handler/slack-support-bot-jira-handler",
+      "remoteRoot": "/var/task",
+      "protocol": "inspector",
+      "stopOnEntry": false
+    }
   ]
 }
