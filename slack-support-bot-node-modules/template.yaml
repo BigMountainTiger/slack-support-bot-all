@@ -1,0 +1,21 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  slack_support_bot_node_modules_layer
+  Slack support bot node modules layer
+  
+Resources:
+  SlackSupportBotNodeModulesLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+        LayerName: slack_support_bot_node_modules_layer
+        Description: The node_modules dependencies for the slack support bot
+        ContentUri: dependencies/
+        CompatibleRuntimes:
+          - nodejs12.x
+        RetentionPolicy: Retain
+
+Outputs:
+  SlackSupportBotNodeModulesLayer:
+    Description: "Slack Support Bot Node-Modules Layer REF"
+    Value: !Ref SlackSupportBotNodeModulesLayer

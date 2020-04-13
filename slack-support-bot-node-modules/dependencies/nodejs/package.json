@@ -1,0 +1,14 @@
+{
+  "name": "slack-support-bot-node-modules-dependency",
+  "version": "1.0.0",
+  "description": "Dependencies for NodeJS",
+  "author": "Song Li",
+  "private": true,
+  "dependencies": {
+    "axios": "^0.19.2",
+    "dotenv": "^8.2.0",
+    "qs": "^6.9.3",
+    "form-data": "^3.0.0",
+    "stream": "0.0.2"
+  }
+}
