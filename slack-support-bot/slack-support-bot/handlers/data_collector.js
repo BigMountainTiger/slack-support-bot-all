@@ -2,22 +2,57 @@ const standardResponses = require('./standard-responses');
 const sqs = require('./sqs_queue');
 
 const validate = (submission) => {
-  let txt_duedate = submission.txt_duedate;
+  const errors = [];
 
-  let errors = [];
-  let date = Date.parse(txt_duedate);
-  if (! date) {
+  const txt_summary = submission.txt_summary;
+  if (!txt_summary) {
     errors.push({
-      name: 'txt_duedate',
-      error: 'This is not a valid date'
+      name: 'txt_summary',
+      error: 'This field is required.'
     });
   } else {
-    let today = new Date();
-    if (date < today) {
+    if (txt_summary.length < 10) {
+      errors.push({
+        name: 'txt_summary',
+        error: 'You must enter at least 10 characters.'
+      });
+    }
+  }
+
+  const txt_description = submission.txt_description;
+  if (!txt_description) {
+    errors.push({
+      name: 'txt_description',
+      error: 'This field is required.'
+    });
+  }
+
+  const txt_duedate = submission.txt_duedate;
+  if (txt_duedate) {
+    const date = Date.parse(txt_duedate);
+
+    if (! date) {
       errors.push({
         name: 'txt_duedate',
-        error: 'You need to give a future due date'
+        error: 'This is not a valid date.'
       });
+    } else {
+      const today = new Date();
+      if (date < today) {
+        errors.push({
+          name: 'txt_duedate',
+          error: 'You need to give a future due date.'
+        });
+      } else {
+        const txt_justification = submission.txt_justification;
+
+        if (!txt_justification) {
+          errors.push({
+            name: 'txt_justification',
+            error: 'You need to give a duedate justification.'
+          });
+        }
+      }
     }
   }
 
@@ -28,12 +63,14 @@ const validate = (submission) => {
   }
 };
 
-const getDialogData = (payload) => {
+const getDialogData = (input) => {
   
-  let sb = payload.submission;
-  let data = {
+  const sb = input.submission;
+  const user = input.user;
+  
+  const data = {
     type: 'DIALOG',
-    user: payload.user,
+    user: user,
     time: Date.now(),
     request: {
       summary: sb.txt_summary,
@@ -51,10 +88,17 @@ const getDialogData = (payload) => {
 const collect = async (payload) => {
   let submission = payload.submission || {};
 
+  submission.txt_summary = (submission.txt_summary || '').trim() || null;
+  submission.txt_description = (submission.txt_description || '').trim() || null;
+  submission.sel_affected_application = (submission.sel_affected_application || '').trim() || null;
+  submission.sel_priority = (submission.sel_priority || '').trim() || null;
+  submission.txt_duedate = (submission.txt_duedate || '').trim() || null;
+  submission.txt_justification = (submission.txt_justification || '').trim() || null;
+
   let validationErrors = validate(submission);
   if (validationErrors) { return standardResponses.SUCCESSOBJECTRESPONSE(validationErrors); }
 
-  const dialogData =  getDialogData(payload);
+  const dialogData =  getDialogData({submission: submission, user: payload.user});
   try {
     await sqs.sendData(dialogData);
   } catch(e) {

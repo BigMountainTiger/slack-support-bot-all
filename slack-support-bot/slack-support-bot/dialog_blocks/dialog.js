@@ -1,10 +1,11 @@
 let getDialog = () => {
-  let date = new Date();
+  const date = new Date();
   date.setDate(date.getDate() + 14);
 
-  let duedate = date.toLocaleDateString();
-
-  let dialog = {
+  // No longer give default due date
+  const duedate = date.toLocaleDateString();
+  
+  const dialog = {
     "callback_id": "ryde-46e2b0",
     "title": "SUBMIT A REQUEST",
     "submit_label": "Request",
@@ -70,9 +71,10 @@ let getDialog = () => {
       {
         "type": "text",
         "label": "DUE DATE",
-        "value": duedate,
+        "value": null,
         "name": "txt_duedate",
-        "placeholder": "MM/DD/YYYY"
+        "placeholder": "MM/DD/YYYY",
+        "optional": true
       },
       {
           "type": "textarea",
