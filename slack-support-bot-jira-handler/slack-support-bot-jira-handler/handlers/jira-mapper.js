@@ -21,7 +21,17 @@ const createMapper = (request) => {
       return r.summary;
     },
     description: () => {
-      return r.description;
+      let description = r.description;
+      let justification = r.justification;
+
+      if (justification) {
+        description = `${description}\n*Due date justification*: ${justification}`;
+      }
+
+      description = `${description}\n*Affected application*: ${r.affected_application}`;
+      description = `${description}\n*Slack user*: ${user}`;
+
+      return description;
     },
     reporterId: () => {
       return '5d727c657dfaa80d90542b1e';
@@ -33,11 +43,27 @@ const createMapper = (request) => {
       if (!r.duedate) {
         return null;
       }
-      
+
       return formatDate(new Date(r.duedate))
     },
     labels: () => {
-      return [user, r.affected_application];
+      const rd = 'R&D-innovation';
+      const platform = 'Platform';
+      const qt = 'Q-TRIAGE';
+
+      const result = [user, r.affected_application];
+
+      if (r.priority === 'NORMAL') {
+        if (!r.duedate) {
+          result.push(rd);
+        } else {
+          result.push(qt);
+        }
+      } else {
+        result.push(platform);
+      }
+
+      return result;
     },
     priorityName: () => {
       if (r.priority === 'NORMAL') {
