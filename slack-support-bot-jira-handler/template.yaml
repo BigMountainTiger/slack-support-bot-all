@@ -13,7 +13,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: SlackSupportBotJiraHandlerFunction
-      Role: arn:aws:iam::005256505030:role/slack-bot-app-SQSPullerRole
+      Role: arn:aws:iam::005256505030:role/slack-bot-app-function-role
       CodeUri: slack-support-bot-jira-handler/
       Handler: app.lambdaHandler
       Layers:

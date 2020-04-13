@@ -13,6 +13,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: SlackSupportBotFunction
+      Role: arn:aws:iam::005256505030:role/slack-bot-app-function-role
       CodeUri: slack-support-bot/
       Handler: app.lambdaHandler
       Layers:
@@ -32,6 +33,3 @@ Outputs:
   SlackSupportBotFunction:
     Description: "SlackSupportBotFunction ARN"
     Value: !GetAtt SlackSupportBotFunction.Arn
-  SlackSupportBotFunctionIamRole:
-    Description: "Implicit IAM Role created for SlackSupportBotFunction"
-    Value: !GetAtt SlackSupportBotFunctionRole.Arn
