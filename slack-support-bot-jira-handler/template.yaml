@@ -1,0 +1,21 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  slack-support-bot-jira-handler
+  SAM for slack-support-bot-jira-handler
+  
+Globals:
+  Function:
+    Timeout: 120
+
+Resources:
+  SlackSupportBotJiraHandlerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: SlackSupportBotJiraHandlerFunction
+      Role: arn:aws:iam::005256505030:role/slack-bot-app-SQSPullerRole
+      CodeUri: slack-support-bot-jira-handler/
+      Handler: app.lambdaHandler
+      Layers:
+        - arn:aws:lambda:us-east-1:005256505030:layer:slack_support_bot_node_modules_layer:1
+      Runtime: nodejs12.x
