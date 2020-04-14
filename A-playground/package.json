@@ -1,0 +1,11 @@
+{
+  "name": "a-playground",
+  "version": "1.0.0",
+  "description": "A playground to try new programs",
+  "private": true,
+  "author": "Song Li",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "dotenv": "^8.2.0"
+  }
+}
