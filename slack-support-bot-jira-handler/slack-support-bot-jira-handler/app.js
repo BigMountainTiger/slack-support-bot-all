@@ -25,6 +25,11 @@ const processRequests = async (event) => {
   
   for (let i = 0; i < requests.length; i++) {
     const request = requests[i];
+    const user = request.user;
+
+    if ((!user) || !(user.id)) {
+      continue;
+    }
 
     let msgText = 'Unknow Request';
     if (request.type === 'DIALOG') {
@@ -36,7 +41,7 @@ const processRequests = async (event) => {
     }
     
     const msg = {
-      channel: request.user.id,
+      channel: user.id,
       text: msgText
     };
     try {
@@ -49,6 +54,12 @@ const processRequests = async (event) => {
 };
 
 exports.lambdaHandler = async (event, context) => {
+  if (event.Is_QA_Validation) {
+    return {
+      Is_QA_Validation: true
+    };
+  }
+
   try {
     await processRequests(event);
   }
