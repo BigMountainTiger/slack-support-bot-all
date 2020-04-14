@@ -4,19 +4,19 @@ const CancelToken = axios.CancelToken;
 
 const BOT_TOKEN = process.env.BOT_TOKEN;
 
-const getCancelToken = () => {
+const getCancelToken = (seconds) => {
   let source = CancelToken.source();
-  setTimeout(() => { source.cancel('Timeout'); }, 3 * 1000);
+  setTimeout(() => { source.cancel('Timeout'); }, seconds * 1000);
 
   return source.token;
 };
 
 const validate_slack = async () => {
-  const url = 'https://slack.com1/api/auth.test';
+  const url = 'https://slack.com/api/auth.test';
 
   const options = {
     method: 'GET',
-    cancelToken: getCancelToken(),
+    cancelToken: getCancelToken(3),
     headers: { Authorization: 'Bearer ' + BOT_TOKEN },
     url: url,
   };
