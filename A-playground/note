@@ -1,2 +1,4 @@
 Test Slack auth:
 https://slack.com/api/auth.test
+
+aws s3 rm s3://sam.huge.head.li --recursive
