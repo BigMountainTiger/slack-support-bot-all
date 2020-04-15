@@ -9,8 +9,8 @@ AWS.config.update({region: process.env.SUPPORT_QUEUE_REGION});
 const SUPPORT_QUEUE_URL = process.env.SUPPORT_QUEUE_URL;
 const BOT_TOKEN = process.env.BOT_TOKEN;
 
-JIRA_AUTH_EMAIL = process.env.JIRA_AUTH_EMAIL;
-JIRA_AUTH_TOKEN = process.env.JIRA_AUTH_TOKEN;
+const JIRA_AUTH_EMAIL = process.env.JIRA_AUTH_EMAIL;
+const JIRA_AUTH_TOKEN = process.env.JIRA_AUTH_TOKEN;
 
 const getCancelToken = (seconds) => {
   let source = CancelToken.source();
