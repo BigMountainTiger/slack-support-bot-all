@@ -27,7 +27,7 @@ const mappData = (request) => {
       priority: {
         name: m.priorityName()
       },
-      issuetype: { name: m.issuetypeName() },
+      issuetype: { name: m.issuetypeName() }
     }
   };
 
