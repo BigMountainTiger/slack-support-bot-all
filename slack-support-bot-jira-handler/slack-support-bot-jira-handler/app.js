@@ -54,10 +54,8 @@ const processRequests = async (event) => {
 };
 
 exports.lambdaHandler = async (event, context) => {
-  if (event.Is_QA_Validation) {
-    return {
-      Is_QA_Validation: true
-    };
+  if (event.Is_QA_Environmental_Validation) {
+    return require('./qa-general/qa-environmental-validation').validate();
   }
 
   try {
