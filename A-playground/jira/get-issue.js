@@ -29,7 +29,7 @@ const get_jira_issue = async (key) => {
 
 (async () => {
 
-  const data = await get_jira_issue('GSD-4');
+  const data = await get_jira_issue('GSD-55');
   console.log(data);
 
 })();
