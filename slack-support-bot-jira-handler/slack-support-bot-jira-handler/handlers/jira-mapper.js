@@ -47,18 +47,18 @@ const createMapper = (request) => {
       return formatDate(new Date(r.duedate))
     },
     labels: () => {
-      const rd = 'R&D-innovation';
+
+      const agency = 'Agency';
       const platform = 'Platform';
-      const qt = 'Q-TRIAGE';
+      const rd = 'R&D-innovation';
 
-      const result = [user, r.affected_application];
+      const app = r.affected_application;
+      const result = [user, app];
 
-      if (r.priority === 'NORMAL') {
-        if (!r.duedate) {
-          result.push(rd);
-        } else {
-          result.push(qt);
-        }
+      if (app === 'DMAP') {
+        result.push(agency);
+      } else if (app === 'N/A') {
+        result.push(rd);
       } else {
         result.push(platform);
       }
@@ -74,7 +74,7 @@ const createMapper = (request) => {
       }
     },
     issuetypeName: () => {
-      return 'Email request';
+      return r.request_type;
     }
   }
 };
