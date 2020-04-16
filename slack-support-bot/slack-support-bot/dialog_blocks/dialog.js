@@ -28,6 +28,26 @@ let getDialog = () => {
         "optional": false
       },
       {
+        "label": "REQUEST TYPE",
+        "type": "select",
+        "name": "sel_request_type",
+        "placeholder": "Please choose a request type",
+        "options": [
+          {
+            "label": "Bug",
+            "value": "Bug"
+          },
+          {
+            "label": "Support",
+            "value": "Support"
+          },
+          {
+            "label": "Feature",
+            "value": "Feature"
+          }
+        ]
+      },
+      {
         "label": "AFFECTED APPLICATION",
         "type": "select",
         "name": "sel_affected_application",
@@ -48,6 +68,10 @@ let getDialog = () => {
           {
             "label": "DMAP",
             "value": "DMAP"
+          },
+          {
+            "label": "N/A - An improvement suggestion",
+            "value": "N/A"
           }
         ]
       },

@@ -75,6 +75,7 @@ const getDialogData = (input) => {
     request: {
       summary: sb.txt_summary,
       description: sb.txt_description,
+      request_type: sb.sel_request_type,
       affected_application: sb.sel_affected_application,
       priority: sb.sel_priority,
       duedate: sb.txt_duedate,
@@ -90,6 +91,7 @@ const collect = async (payload) => {
 
   submission.txt_summary = (submission.txt_summary || '').trim() || null;
   submission.txt_description = (submission.txt_description || '').trim() || null;
+  submission.sel_request_type = (submission.sel_request_type || '').trim() || null;
   submission.sel_affected_application = (submission.sel_affected_application || '').trim() || null;
   submission.sel_priority = (submission.sel_priority || '').trim() || null;
   submission.txt_duedate = (submission.txt_duedate || '').trim() || null;
