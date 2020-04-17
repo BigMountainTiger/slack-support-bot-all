@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: __dirname + '/../.env' });
 
 const axios = require('axios');
 const CancelToken = axios.CancelToken;
