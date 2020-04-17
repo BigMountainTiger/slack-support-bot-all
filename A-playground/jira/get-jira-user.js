@@ -1,3 +1,5 @@
+// https://community.atlassian.com/t5/Answers-Developer-Questions/Create-New-Users-using-JIRA-REST-API/qaq-p/541525
+
 require('dotenv').config({ path: __dirname + '/../.env' });
 
 const axios = require('axios');
@@ -13,8 +15,8 @@ const getCancelToken = (seconds) => {
   return source.token;
 };
 
-const get_jira_issue = async (key) => {
-  const url = `https://mlg-playground.atlassian.net/rest/api/2/issue/${key}/`;
+const get_jira_user = async (email) => {
+  const url = `https://mlg-playground.atlassian.net/rest/api/2/user/search?query=${escape(email)}`;
 
   const options = {
     method: 'GET',
@@ -29,7 +31,7 @@ const get_jira_issue = async (key) => {
 
 (async () => {
 
-  const data = await get_jira_issue('GSD-76');
+  const data = await get_jira_user('song@monsterlg.com');
   console.log(data);
 
 })();
