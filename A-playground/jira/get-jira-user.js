@@ -19,7 +19,7 @@ const get_jira_user = async (email) => {
   const url = `https://mlg-playground.atlassian.net/rest/api/2/user/search?query=${escape(email)}`;
 
   const source = CancelToken.source();
-  const timeoutHandle = setTimeout(() => { source.cancel('Timeout'); }, 10 * 1000);
+  const timeoutHandle = setTimeout(() => { source.cancel('Timeout'); }, 3 * 1000);
 
   const options = {
     method: 'GET',
@@ -28,8 +28,18 @@ const get_jira_user = async (email) => {
     url: url,
   };
 
-  const res = await axios(options);
-  clearTimeout(timeoutHandle);
+  let res = {};
+  try {
+
+    res = await axios(options);
+  } catch(e) {
+
+    console.log('Error');
+    return {};
+  } finally {
+    console.log('clearTimeout');
+    clearTimeout(timeoutHandle);
+  }
 
   return res.data;
 };
