@@ -32,11 +32,13 @@ const get_jira_user = async (email) => {
   try {
 
     res = await axios(options);
-  } catch(e) {
+  } 
+  catch(e) {
 
     console.log('Error');
     return {};
-  } finally {
+  } 
+  finally {
     console.log('clearTimeout');
     clearTimeout(timeoutHandle);
   }
@@ -46,7 +48,7 @@ const get_jira_user = async (email) => {
 
 (async () => {
 
-  const data = await get_jira_user('song@monsterlg.com');
+  const data = await get_jira_user('song1@monsterlg.com');
   console.log(data);
 
 })();
