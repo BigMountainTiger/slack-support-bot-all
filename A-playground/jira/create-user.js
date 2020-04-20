@@ -1,4 +1,6 @@
 // https://developer.atlassian.com/cloud/jira/platform/rest/v3/?utm_source=%2Fcloud%2Fjira%2Fplatform%2Frest%2F&utm_medium=302#api-rest-api-3-user-post
+// https://admin.atlassian.com/
+
 
 require('dotenv').config({ path: __dirname + '/../.env' });
 
@@ -10,20 +12,21 @@ const JIRA_AUTH_TOKEN = process.env.JIRA_AUTH_TOKEN;
 
 
 const create_jira_user = async (email) => {
-  const url = `https://song-li-experiment.atlassian.net/rest/api/2/user`;
+  const url = `https://mlg-playground.atlassian.net/rest/api/2/user`;
 
   const source = CancelToken.source();
   const timeoutHandle = setTimeout(() => { source.cancel('Timeout'); }, 10 * 1000);
 
+  const no = '001';
   const data = {
-    emailAddress: 'song4@monsterlg.com',
-    displayName: 'Song Li - 4'
+    emailAddress: `song-${no}@monsterlg.com`,
+    displayName: `Dummy-song-li-${no}`
   };
 
   const options = {
     method: 'POST',
     cancelToken: source.token,
-    auth: { username: 'da_tou_li@yahoo.com', password: 'BQBR3jOpcPRnnwqiuek28358' },
+    auth: { username: JIRA_AUTH_EMAIL, password: JIRA_AUTH_TOKEN },
     url: url,
     data: data
   };
@@ -34,7 +37,9 @@ const create_jira_user = async (email) => {
     res = await axios(options);
   } catch(e) {
 
-    console.log(e);
+    let r = e.response;
+    let d = r.data;
+    console.log(d);
     return {};
 
   } finally {
