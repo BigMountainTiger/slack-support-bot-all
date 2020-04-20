@@ -56,11 +56,11 @@ const createMapper = (request) => {
       const result = [user, app];
 
       if (app === 'DMAP') {
-        result.push(agency);
+        result.push(platform);
       } else if (app === 'N/A') {
         result.push(rd);
       } else {
-        result.push(platform);
+        result.push(agency);
       }
 
       return result;
