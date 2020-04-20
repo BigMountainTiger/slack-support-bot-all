@@ -48,9 +48,9 @@ const get_jira_user = async (email) => {
 
 (async () => {
 
-  //const data = await get_jira_user('song@monsterlg.com');
+  const data = await get_jira_user('song-002@monsterlg.com');
   //const data = await get_jira_user('andre@monsterlg.com');
-  const data = await get_jira_user('ashley@monsterlg.com');
+  //const data = await get_jira_user('ashley@monsterlg.com');
   
   console.log(data);
 
