@@ -135,7 +135,7 @@ const get_jira_accountId_by_slack_id = async (slackId) => {
 
 (async () => {
 
-  const slackId = 'U01023BN1MX';
+  const slackId = 'U0108JG61NX';
 
   const result = await get_jira_accountId_by_slack_id(slackId);
   console.log(result);
