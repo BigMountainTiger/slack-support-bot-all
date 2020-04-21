@@ -8,6 +8,7 @@ const SLACK_GET_USER_URL = 'https://slack.com/api/users.info?user=${slack-id}'
 const JIRA_AUTH_EMAIL = process.env.JIRA_AUTH_EMAIL;
 const JIRA_AUTH_TOKEN = process.env.JIRA_AUTH_TOKEN;
 const JIRA_GET_USER_URL = 'https://mlg-playground.atlassian.net/rest/api/2/user/search?query=${email-address}';
+const JIRA_CREATE_CUSTOMER_URL = 'https://mlg-playground.atlassian.net/rest/servicedeskapi/customer';
 
 const get_slack_user = async (slackId) => {
   const url = SLACK_GET_USER_URL.replace('${slack-id}', escape(slackId));
@@ -28,6 +29,20 @@ const get_jira_user = async (email) => {
     method: 'GET',
     auth: { username: JIRA_AUTH_EMAIL, password: JIRA_AUTH_TOKEN },
     url: url,
+  };
+
+  return await ext_axios(options);
+};
+
+const create_jira_user = async (email) => {
+  const url = JIRA_CREATE_CUSTOMER_URL;
+
+  const data = { email: email, displayName: email.split('@')[0] };
+  const options = {
+    method: 'POST',
+    auth: { username: JIRA_AUTH_EMAIL, password: JIRA_AUTH_TOKEN },
+    url: url,
+    data: data
   };
 
   return await ext_axios(options);
@@ -58,13 +73,31 @@ const get_jira_accountId_by_slack_id = async (slackId) => {
     return result;
   }
 
-  // const email = result.user.email;
-  const email = 'song-001@monsterlg.coM';
+  const email = result.user.email;
   try {
     const res = await get_jira_user(email);
-    let data = res.data;
-    console.log(Array.isArray(data));
-    console.log(data);
+
+    const data = res.data;
+    if(!Array.isArray(data)) {
+      result.error = {
+        message: 'Jira is unable to respond any user information'
+      };
+      return result;
+    }
+
+    for(let i = 0; i < data.length; i++) {
+      const jira_user = data[i];
+      const jira_accountId = jira_user.accountId;
+      const jira_email = (jira_user.emailAddress || '').trim().toLowerCase();
+
+      if (email == jira_email) {
+
+        result.user.jira_accountId = jira_accountId;
+        result.user.information = 'Found';
+        return result;
+      }
+    }
+    
   } catch(e) {
 
     result.error = {
@@ -74,6 +107,28 @@ const get_jira_accountId_by_slack_id = async (slackId) => {
     return result;
   }
 
+  try {
+    const res = await create_jira_user(email);
+    const jira_user = res.data;
+    const jira_accountId = jira_user.accountId;
+    
+    if (!jira_accountId) {
+      result.error = {
+        message: 'Jira is unable to respond the information for the user to be added'
+      };
+      return result;
+    }
+
+    result.user.jira_accountId = jira_accountId;
+    result.user.information = 'Added';
+  } catch(e) {
+
+    result.error = {
+      error: e,
+      message: 'Unable to communicate to Jira to add the customer'
+    };
+    return result;
+  }
   
   return result;
 };
