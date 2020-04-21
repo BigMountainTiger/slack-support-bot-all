@@ -2,53 +2,28 @@
 
 require('dotenv').config({ path: __dirname + '/../.env' });
 
-const axios = require('axios');
-const CancelToken = axios.CancelToken;
+const ext_axios = require('../common/ext-axios');
 
 const JIRA_AUTH_EMAIL = process.env.JIRA_AUTH_EMAIL;
 const JIRA_AUTH_TOKEN = process.env.JIRA_AUTH_TOKEN;
 
-// const getCancelToken = (seconds) => {
-//   let source = CancelToken.source();
-//   setTimeout(() => { source.cancel('Timeout'); }, seconds * 1000);
-
-//   return source.token;
-// };
-
 const get_jira_user = async (email) => {
   const url = `https://mlg-playground.atlassian.net/rest/api/2/user/search?query=${escape(email)}`;
 
-  const source = CancelToken.source();
-  const timeoutHandle = setTimeout(() => { source.cancel('Timeout'); }, 3 * 1000);
-
   const options = {
     method: 'GET',
-    cancelToken: source.token,
     auth: { username: JIRA_AUTH_EMAIL, password: JIRA_AUTH_TOKEN },
     url: url,
   };
 
-  let res = {};
-  try {
-
-    res = await axios(options);
-  } 
-  catch(e) {
-
-    console.log('Error');
-    return {};
-  } 
-  finally {
-    console.log('clearTimeout');
-    clearTimeout(timeoutHandle);
-  }
+  let res = await ext_axios(options);
 
   return res.data;
 };
 
 (async () => {
 
-  const data = await get_jira_user('song-002@monsterlg.com');
+  const data = await get_jira_user('song-003@monsterlg.com');
   //const data = await get_jira_user('andre@monsterlg.com');
   //const data = await get_jira_user('ashley@monsterlg.com');
   

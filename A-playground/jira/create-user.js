@@ -5,20 +5,15 @@
 
 require('dotenv').config({ path: __dirname + '/../.env' });
 
-const axios = require('axios');
-const CancelToken = axios.CancelToken;
+const ext_axios = require('../common/ext-axios');
 
 const JIRA_AUTH_EMAIL = process.env.JIRA_AUTH_EMAIL;
 const JIRA_AUTH_TOKEN = process.env.JIRA_AUTH_TOKEN;
 
-
 const create_jira_user = async (email) => {
   const url = `https://mlg-playground.atlassian.net/rest/servicedeskapi/customer`;
 
-  const source = CancelToken.source();
-  const timeoutHandle = setTimeout(() => { source.cancel('Timeout'); }, 10 * 1000);
-
-  const no = '002';
+  const no = '004';
   const data = {
     email: `song-${no}@monsterlg.com`,
     displayName: `Dummy-song-li-${no}`
@@ -26,29 +21,18 @@ const create_jira_user = async (email) => {
 
   const options = {
     method: 'POST',
-    cancelToken: source.token,
     auth: { username: JIRA_AUTH_EMAIL, password: JIRA_AUTH_TOKEN },
     url: url,
     data: data
   };
 
-  let res = {};
   try {
-
-    res = await axios(options);
+    let res = await ext_axios(options);
+    return res;
   } catch(e) {
-
-    let r = e.response;
-    let d = r.data;
-    console.log(d);
-    return {};
-
-  } finally {
-    console.log('clearTimeout');
-    clearTimeout(timeoutHandle);
+    console.log(e.response.data);
   }
-
-  return res;
+  
 };
 
 (async () => {
