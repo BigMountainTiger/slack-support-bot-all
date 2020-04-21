@@ -6,7 +6,7 @@ const ext_axios = async (options, timeout_second) => {
   const CancelToken = axios.CancelToken;
 
   const source = CancelToken.source();
-  const tm = setTimeout(() => { source.cancel(); }, timeout);
+  const tm = setTimeout(() => { source.cancel(`Cancelled after ${timeout}ms.`); }, timeout);
 
   options.cancelToken = source.token;
 
