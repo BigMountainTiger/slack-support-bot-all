@@ -78,7 +78,7 @@ const get_jira_accountId_by_slack_id = async (slackId) => {
 
   if (!email_validator.validate_email(email)) {
     result.error = {
-      message: `Your slack email ${email} is not valid`
+      message: `Your slack email ${email} is not valid email address`
     };
     return result;
   }
