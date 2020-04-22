@@ -85,7 +85,7 @@ const get_jira_accountId_by_slack_id = async (slackId) => {
 
   if (!email_validator.validate_domain(email)) {
     result.error = {
-      message: `Your slack email ${email} does not have a supported domain - ${email_validator.TOP_DOMAINS}`
+      message: `Your slack email ${email} is not supported - supported domains are ${email_validator.TOP_DOMAINS}`
     };
     return result;
   }
