@@ -38,7 +38,14 @@ const get_jira_user = async (email) => {
 
 (async () => {
 
-  const data = await get_jira_user('andre@monsterlg.com');
+  // .com
+  // .org
+  // .net
+  // .int
+  // .edu
+  // .gov
+  // .mil
+  const data = await get_jira_user('song@mons.teA123rlg.com');
 
   //const data = await get_jira_user('song@monsterlg.com');
   //const data = await get_jira_user('andre@monsterlg.com');
