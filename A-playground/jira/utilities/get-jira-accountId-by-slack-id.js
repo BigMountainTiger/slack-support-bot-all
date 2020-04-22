@@ -1,6 +1,7 @@
 require('dotenv').config({ path: __dirname + '/../../.env' });
 
 const ext_axios = require('../../common/ext-axios');
+const email_validator = require('../../common/email-validator');
 
 const BOT_TOKEN = process.env.BOT_TOKEN;
 const SLACK_GET_USER_URL = 'https://slack.com/api/users.info?user=${slack-id}'
@@ -74,6 +75,21 @@ const get_jira_accountId_by_slack_id = async (slackId) => {
   }
 
   const email = result.user.email;
+
+  if (!email_validator.validate_email(email)) {
+    result.error = {
+      message: `Your slack email ${email} is not valid`
+    };
+    return result;
+  }
+
+  if (!email_validator.validate_domain(email)) {
+    result.error = {
+      message: `Your slack email ${email} does not have a supported domain - ${email_validator.TOP_DOMAINS}`
+    };
+    return result;
+  }
+
   try {
     const res = await get_jira_user(email);
 
@@ -85,17 +101,22 @@ const get_jira_accountId_by_slack_id = async (slackId) => {
       return result;
     }
 
-    for(let i = 0; i < data.length; i++) {
-      const jira_user = data[i];
-      const jira_accountId = jira_user.accountId;
-      const jira_email = (jira_user.emailAddress || '').trim().toLowerCase();
+    const length = data.length;
+    if (length > 0) {
 
-      if (email == jira_email) {
-
-        result.user.jira_accountId = jira_accountId;
-        result.user.information = 'Found';
+      if (length > 1) {
+        result.error = {
+          message: `Jira found multiple users to match ${email}`
+        };
         return result;
       }
+
+      const jira_user = data[0];
+      const jira_accountId = jira_user.accountId;
+
+      result.user.jira_accountId = jira_accountId;
+      result.user.information = 'Found';
+      return result;
     }
     
   } catch(e) {
