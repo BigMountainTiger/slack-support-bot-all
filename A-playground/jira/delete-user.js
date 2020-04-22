@@ -36,7 +36,7 @@ const delete_jira_user = async (accoundId) => {
 
 (async () => {
 
-  const data = await delete_jira_user('qm:3a7d83b8-6121-48cc-b7a0-876120c59bb9:f9c0d255-63f0-4208-a1d3-48b2f472d12c');
+  const data = await delete_jira_user('qm:3a7d83b8-6121-48cc-b7a0-876120c59bb9:87a73f29-441b-4eec-96b0-b326cd88d190');
   console.log(data);
 
 })();
