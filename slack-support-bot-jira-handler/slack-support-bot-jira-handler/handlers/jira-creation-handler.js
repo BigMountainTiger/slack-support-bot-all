@@ -1,6 +1,7 @@
 const axios = require('axios');
 const CancelToken = axios.CancelToken;
 const jiraMapper = require('./jira-mapper');
+const get_jira_accountId_by_slack_id = require('../utilities/get-jira-accountId-by-slack-id');
 
 const BOT_APP_NAME = process.env.BOT_APP_NAME;
 const JIRA_CREATE_URL = process.env.JIRA_CREATE_URL;
@@ -35,6 +36,24 @@ const mappData = (request) => {
 }
 
 const create = async (request) => {
+
+  try {
+    const res = await get_jira_accountId_by_slack_id(request.user.id);
+    if (res.error) {
+      return res.error.message;
+    }
+    
+    const jira_accountId = res.user.jira_accountId;
+    if (!jira_accountId) {
+      return 'Unable to get the issue requester\'s jira information';
+    }
+
+    request.request.jira_accountId = jira_accountId;
+
+  } catch(e) {
+    return 'Unable to get the issue requester\'s jira information - @' + (new Date()).toLocaleString();
+  }
+
   let data = {}
   try {
     data = mappData(request);

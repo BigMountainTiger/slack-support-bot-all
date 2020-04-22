@@ -34,10 +34,10 @@ const createMapper = (request) => {
       return description;
     },
     reporterId: () => {
-      return '5d727c657dfaa80d90542b1e';
+      return r.jira_accountId;
     },
     assigneeId: () => {
-      return '5d727c657dfaa80d90542b1e';
+      return null;
     },
     duedate: () => {
       if (!r.duedate) {
