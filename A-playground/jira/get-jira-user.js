@@ -18,7 +18,6 @@ const JIRA_AUTH_TOKEN = process.env.JIRA_AUTH_TOKEN;
 
 const get_jira_user = async (email) => {
   const url = `https://mlg-playground.atlassian.net/rest/api/2/user/search?query=${escape(email)}`;
-  //const url = `https://mlg-playground.atlassian.net/rest/api/2/user/search?query=${email}`;
 
   const options = {
     method: 'GET',
@@ -39,13 +38,14 @@ const get_jira_user = async (email) => {
 
 (async () => {
 
-  const data = await get_jira_user('song@monsterlg.ld.sp.jp.com');
+  const data = await get_jira_user('andre@monsterlg.com');
 
   //const data = await get_jira_user('song@monsterlg.com');
   //const data = await get_jira_user('andre@monsterlg.com');
   //const data = await get_jira_user('ashley@monsterlg.com');
   
   console.log(data);
+  console.log(data.length);
 
 })();
 
