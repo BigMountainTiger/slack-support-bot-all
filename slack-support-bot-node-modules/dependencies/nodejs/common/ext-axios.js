@@ -1,8 +1,8 @@
 const axios = require('axios');
 
 const ext_axios = async (options, timeout_second) => {
-
-  const timeout = (timeout_second || 3) * 1000;
+  const timeout_second_default = 5;
+  const timeout = (timeout_second || timeout_second_default) * 1000;
   const CancelToken = axios.CancelToken;
 
   const source = CancelToken.source();
