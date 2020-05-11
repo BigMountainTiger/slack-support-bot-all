@@ -60,7 +60,7 @@ const attachAFile = async (data) => {
     
     let jira_res = await axios(options);
   } catch(e) {
-    return `Unable to attach *${fileName}*, Check if the Jira Key exists or if the Jira issue *${jiraId}* may have been deleted`;
+    return `Unable to attach *${fileName}*, Check if the Jira Key exists or if the Jira issue *${jiraId}* may have been deleted or your file is too large`;
   }
   
   return `The file *${fileName}* has been attached`;
