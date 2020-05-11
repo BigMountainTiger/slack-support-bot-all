@@ -15,7 +15,7 @@ const attachAFile = async (data) => {
   let slack_res = null;
   try {
     let source = CancelToken.source();
-    setTimeout(() => { source.cancel(); }, 3 * 1000);
+    setTimeout(() => { source.cancel(); }, 8 * 1000);
 
     const slack_url = file.url_private;
     const options = {
@@ -43,7 +43,7 @@ const attachAFile = async (data) => {
     form.append('file', slack_res.data);
 
     let source = CancelToken.source();
-    setTimeout(() => { source.cancel(); }, 3 * 1000);
+    setTimeout(() => { source.cancel(); }, 10 * 1000);
 
     const jira_url = JIRA_ATTACHMENT_URL.replace('${jiraId}', jiraId);
     const options = {
