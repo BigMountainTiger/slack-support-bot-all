@@ -6,7 +6,7 @@ Description: >
   
 Globals:
   Function:
-    Timeout: 180
+    Timeout: 240
 
 Resources:
   SlackSupportBotJiraHandlerFunction:
