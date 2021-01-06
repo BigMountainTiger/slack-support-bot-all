@@ -6,7 +6,7 @@
   "author": "Song Li",
   "dependencies": {
     "aws-sdk": "^2.656.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "dotenv": "^8.2.0"
   }
 }
